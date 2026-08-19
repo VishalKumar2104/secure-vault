@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://www.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/page-guard.js"></script>
+    <!-- Firebase App & Auth SDKs -->
+    <script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script defer src="js/firebase-config.js"></script>
+    <script defer src="js/api.js"></script>
+    <script defer src="js/auth.js"></script>
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar Placeholder -->
+        <div id="sidebar-container"></div>
+
+        <div class="main-wrapper">
+            <!-- Topbar Placeholder -->
+            <div id="topbar-container"></div>
+
+            <!-- Content Body -->
+            <div class="content-body">
+                <div style="margin-bottom: 25px;">
+                    <h2 style="font-size: 1.6rem; font-weight: 700; color: white;">Upload Documents</h2>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">Upload new documents to your secure space. Max file size: 50 MB.</p>
+                </div>
+
+                <!-- Drag & Drop Zone -->
+                <div class="upload-zone" id="drop-zone">
+                    <input type="file" id="file-input" multiple style="display: none;">
+                    <div class="upload-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+                    <h3>Drag & Drop your files here</h3>
+                    <p>or</p>
+                    <button class="btn btn-primary" onclick="document.getElementById('file-input').click()">
+                        <i class="fa-solid fa-folder-open"></i> Browse Files
+                    </button>
+                    <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 15px;">
+                        Supported formats: PDF, JPG, JPEG, PNG, DOC, DOCX, XLS, XLSX, TXT, ZIP
+                    </div>
+                </div>
+
+                <!-- Upload Progress Area -->
+                <div id="upload-queue-container" style="display: none; margin-top: 30px;">
+                    <h3 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 15px; color: white;">Upload Queue</h3>
+                    <div id="upload-queue"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/upload.js"></script>
+</body>
+</html>

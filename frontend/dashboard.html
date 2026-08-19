@@ -1,0 +1,126 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://www.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/page-guard.js"></script>
+    <!-- Firebase App & Auth SDKs -->
+    <script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script defer src="js/firebase-config.js"></script>
+    <script defer src="js/api.js"></script>
+    <script defer src="js/auth.js"></script>
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar Placeholder -->
+        <div id="sidebar-container"></div>
+
+        <div class="main-wrapper">
+            <!-- Topbar Placeholder -->
+            <div id="topbar-container"></div>
+
+            <!-- Content Body -->
+            <div class="content-body">
+                <div style="margin-bottom: 25px;">
+                    <h2 style="font-size: 1.6rem; font-weight: 700; color: white;">Welcome back, <span id="welcome-name">User</span></h2>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">Manage your documents and monitor your storage metrics.</p>
+                </div>
+
+                <!-- Statistics Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <div class="title">Total Files</div>
+                            <div class="value" id="stat-files">0</div>
+                        </div>
+                        <div class="stat-icon"><i class="fa-solid fa-folder"></i></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <div class="title">Storage Used</div>
+                            <div class="value" id="stat-storage">0 MB</div>
+                            <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 5px;">Limit: 10 GB</div>
+                        </div>
+                        <div class="stat-icon"><i class="fa-solid fa-hard-drive"></i></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <div class="title">Storage Consumed %</div>
+                            <div class="value" id="stat-pct">0%</div>
+                        </div>
+                        <div class="stat-icon"><i class="fa-solid fa-chart-pie"></i></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <div class="title">Security Status</div>
+                            <div class="value" id="stat-security" style="color: var(--success); font-size: 1.5rem;">Protected</div>
+                        </div>
+                        <div class="stat-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                    </div>
+                </div>
+
+                <!-- Recent Files Card Table -->
+                <div class="table-container">
+                    <div class="table-header-row">
+                        <h3>Recent Files</h3>
+                        <a href="files.html" class="btn btn-secondary btn-sm"><i class="fa-solid fa-eye"></i> View All Files</a>
+                    </div>
+                    <table class="custom-table">
+                        <thead>
+                            <tr>
+                                <th>File Name</th>
+                                <th>Type</th>
+                                <th>Size</th>
+                                <th>Upload Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recent-files-body">
+                            <tr class="skeleton-row">
+                                <td colspan="6" style="text-align: center; color: var(--text-muted); padding: 30px;">
+                                    <i class="fa-solid fa-circle-notch fa-spin"></i> Loading recent files...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- File Details Modal -->
+    <div class="modal-overlay" id="details-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>File Details</h3>
+                <button class="btn-icon" onclick="closeDetailsModal()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <ul class="details-list">
+                    <li class="details-item"><span>File Name</span><span id="detail-name">-</span></li>
+                    <li class="details-item"><span>File Type</span><span id="detail-type">-</span></li>
+                    <li class="details-item"><span>MIME Type</span><span id="detail-mime">-</span></li>
+                    <li class="details-item"><span>File Size</span><span id="detail-size">-</span></li>
+                    <li class="details-item"><span>Upload Date</span><span id="detail-date">-</span></li>
+                    <li class="details-item"><span>Encryption Status</span><span id="detail-encryption" style="color: var(--success);">-</span></li>
+                    <li class="details-item"><span>Security Status</span><span id="detail-security" style="color: var(--success);">-</span></li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeDetailsModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

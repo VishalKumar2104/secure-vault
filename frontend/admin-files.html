@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://www.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/page-guard.js"></script>
+    <!-- Firebase App & Auth SDKs -->
+    <script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script defer src="js/firebase-config.js"></script>
+    <script defer src="js/api.js"></script>
+    <script defer src="js/auth.js"></script>
+</head>
+<body>
+    <div class="dashboard-layout">
+        <div id="sidebar-container"></div>
+        <div class="main-wrapper">
+            <div id="topbar-container"></div>
+            <div class="content-body">
+                <div style="margin-bottom: 25px;">
+                    <h2 style="font-size: 1.6rem; font-weight: 700; color: white;">System-Wide Documents</h2>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">Audit all files uploaded across the entire Secure Vault cluster.</p>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-header-row">
+                        <div class="table-controls" style="width: 100%; justify-content: space-between;">
+                            <div style="display: flex; gap: 12px; flex: 1; max-width: 500px;">
+                                <input type="text" id="search-input" class="form-control search-input" placeholder="Search system files...">
+                                <select id="filter-type" class="select-control">
+                                    <option value="all">All Formats</option>
+                                    <option value="pdf">PDF</option>
+                                    <option value="images">Images</option>
+                                    <option value="documents">Docs</option>
+                                    <option value="spreadsheets">Sheets</option>
+                                </select>
+                            </div>
+                            <div>
+                                <select id="sort-by" class="select-control">
+                                    <option value="newest">Newest First</option>
+                                    <option value="oldest">Oldest First</option>
+                                    <option value="size_desc">Size (Large to Small)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <table class="custom-table">
+                        <thead>
+                            <tr>
+                                <th>File Name</th>
+                                <th>Owner Email</th>
+                                <th>Type</th>
+                                <th>Size</th>
+                                <th>Uploaded Date</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-files-body">
+                            <tr><td colspan="7" style="text-align: center; color: var(--text-muted); padding: 30px;"><i class="fa-solid fa-circle-notch fa-spin"></i> Loading system files...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/admin.js"></script>
+</body>
+</html>

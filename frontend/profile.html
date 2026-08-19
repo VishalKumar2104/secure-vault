@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://www.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/page-guard.js"></script>
+    <!-- Firebase App & Auth SDKs -->
+    <script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script defer src="js/firebase-config.js"></script>
+    <script defer src="js/api.js"></script>
+    <script defer src="js/auth.js"></script>
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar Placeholder -->
+        <div id="sidebar-container"></div>
+
+        <div class="main-wrapper">
+            <!-- Topbar Placeholder -->
+            <div id="topbar-container"></div>
+
+            <!-- Content Body -->
+            <div class="content-body" style="max-width: 800px;">
+                <div style="margin-bottom: 25px;">
+                    <h2 style="font-size: 1.6rem; font-weight: 700; color: white;">Profile Settings</h2>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">Update your personal details and manage your account security credentials.</p>
+                </div>
+
+                <!-- Form 1: Update Profile Details -->
+                <div class="auth-card" style="max-width: 100%; margin-bottom: 30px; padding: 30px;">
+                    <h3 style="font-size: 1.15rem; font-weight: 600; margin-bottom: 20px; color: white; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">
+                        <i class="fa-solid fa-user-pen" style="margin-right: 8px; color: var(--accent-cyan);"></i> General Information
+                    </h3>
+                    <form id="profile-form">
+                        <div class="form-group">
+                            <label for="profile-email">Email Address (Read-only)</label>
+                            <input type="email" id="profile-email" class="form-control" style="background-color: var(--bg-tertiary); cursor: not-allowed;" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="profile-name">Full Name</label>
+                            <input type="text" id="profile-name" class="form-control" required>
+                        </div>
+                        <button type="submit" id="btn-save-profile" class="btn btn-primary">
+                            <i class="fa-solid fa-floppy-disk"></i> Save Details
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Form 2: Password Management via Firebase -->
+                <div class="auth-card" style="max-width: 100%; padding: 30px;">
+                    <h3 style="font-size: 1.15rem; font-weight: 600; margin-bottom: 20px; color: white; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">
+                        <i class="fa-solid fa-key" style="margin-right: 8px; color: var(--accent-cyan);"></i> Password Management
+                    </h3>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 15px;">
+                        Passwords are authenticated and managed via Firebase Identity Services. You can send a password reset email directly to your registered email address.
+                    </p>
+                    <button type="button" id="btn-reset-email" class="btn btn-secondary" onclick="sendProfilePasswordReset()">
+                        <i class="fa-solid fa-paper-plane"></i> Send Password Reset Email
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/profile.js"></script>
+    <script>
+        async function sendProfilePasswordReset() {
+            const email = document.getElementById('profile-email').value;
+            if (!email) {
+                showToast('Email address not loaded', 'error');
+                return;
+            }
+            try {
+                await sv_forgotPassword(email);
+                showToast('Password reset link sent to ' + email, 'success');
+            } catch (e) {
+                showToast(e.message || 'Failed to send reset email', 'error');
+            }
+        }
+    </script>
+</body>
+</html>

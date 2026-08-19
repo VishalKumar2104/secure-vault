@@ -1,0 +1,109 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://www.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/page-guard.js"></script>
+    <!-- Firebase App & Auth SDKs -->
+    <script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script defer src="js/firebase-config.js"></script>
+    <script defer src="js/api.js"></script>
+    <script defer src="js/auth.js"></script>
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar Placeholder -->
+        <div id="sidebar-container"></div>
+
+        <div class="main-wrapper">
+            <!-- Topbar Placeholder -->
+            <div id="topbar-container"></div>
+
+            <!-- Content Body -->
+            <div class="content-body">
+                <div style="margin-bottom: 25px;">
+                    <h2 style="font-size: 1.6rem; font-weight: 700; color: white;">Security Overview</h2>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">Monitor the security of your documents and active account sessions.</p>
+                </div>
+
+                <!-- Overall Status Card -->
+                <div class="stat-card" style="margin-bottom: 30px; border-left: 5px solid var(--success); justify-content: flex-start; gap: 20px;">
+                    <div class="stat-icon" style="background-color: rgba(46, 204, 113, 0.15); color: var(--success);"><i class="fa-solid fa-shield-halved"></i></div>
+                    <div>
+                        <h3 style="font-size: 1.25rem; font-weight: 700; color: white;">Your Account is Protected</h3>
+                        <p style="color: var(--text-muted); font-size: 0.88rem; margin-top: 4px;">All security features are active. Files are protected through Firebase authenticated access and controlled server-side storage.</p>
+                    </div>
+                </div>
+
+                <!-- Security Feature Cards Grid -->
+                <h3 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 15px; color: white;">Active Security Services</h3>
+                <div class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin-bottom: 30px;">
+                    <div class="stat-card" style="padding: 16px; flex-direction: column; align-items: flex-start; gap: 10px;">
+                        <span class="badge badge-success">Active</span>
+                        <div style="font-weight: 600; color: white; font-size: 0.95rem;">Firebase Auth</div>
+                        <p style="color: var(--text-muted); font-size: 0.8rem;">Cryptographic Firebase ID token verification.</p>
+                    </div>
+                    <div class="stat-card" style="padding: 16px; flex-direction: column; align-items: flex-start; gap: 10px;">
+                        <span class="badge badge-success">Active</span>
+                        <div style="font-weight: 600; color: white; font-size: 0.95rem;">File Storage</div>
+                        <p style="color: var(--text-muted); font-size: 0.8rem;">Isolated sandboxed server directories.</p>
+                    </div>
+                    <div class="stat-card" style="padding: 16px; flex-direction: column; align-items: flex-start; gap: 10px;">
+                        <span class="badge badge-success">Active</span>
+                        <div style="font-weight: 600; color: white; font-size: 0.95rem;">Access Control</div>
+                        <p style="color: var(--text-muted); font-size: 0.8rem;">Strict ownership verification filters.</p>
+                    </div>
+                    <div class="stat-card" style="padding: 16px; flex-direction: column; align-items: flex-start; gap: 10px;">
+                        <span class="badge badge-success">Active</span>
+                        <div style="font-weight: 600; color: white; font-size: 0.95rem;">Activity Logging</div>
+                        <p style="color: var(--text-muted); font-size: 0.8rem;">Complete user activity tracking logs.</p>
+                    </div>
+                </div>
+
+                <!-- Last Login Audit Info -->
+                <div class="stat-card" style="margin-bottom: 30px; justify-content: flex-start; gap: 20px;">
+                    <div class="stat-icon" style="background-color: rgba(30, 136, 229, 0.1); color: var(--accent-blue);"><i class="fa-solid fa-clock-rotate-left"></i></div>
+                    <div>
+                        <h3 style="font-size: 1.1rem; font-weight: 600; color: white;">Last Session Audit</h3>
+                        <p style="color: var(--text-muted); font-size: 0.90rem; margin-top: 4px;" id="last-login-details">Loading last login date, time, and device details...</p>
+                    </div>
+                </div>
+
+                <!-- Security Events Log -->
+                <div class="table-container">
+                    <div class="table-header-row">
+                        <h3>Security Events Log</h3>
+                    </div>
+                    <table class="custom-table">
+                        <thead>
+                            <tr>
+                                <th>Event Type</th>
+                                <th>Severity</th>
+                                <th>Description</th>
+                                <th>Timestamp</th>
+                            </tr>
+                        </thead>
+                        <tbody id="security-events-body">
+                            <tr class="skeleton-row">
+                                <td colspan="4" style="text-align: center; color: var(--text-muted); padding: 30px;">
+                                    <i class="fa-solid fa-circle-notch fa-spin"></i> Loading security logs...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/security.js"></script>
+</body>
+</html>

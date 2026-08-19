@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://www.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/page-guard.js"></script>
+    <!-- Firebase App & Auth SDKs -->
+    <script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script defer src="js/firebase-config.js"></script>
+    <script defer src="js/api.js"></script>
+    <script defer src="js/auth.js"></script>
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar Placeholder -->
+        <div id="sidebar-container"></div>
+
+        <div class="main-wrapper">
+            <!-- Topbar Placeholder -->
+            <div id="topbar-container"></div>
+
+            <!-- Content Body -->
+            <div class="content-body">
+                <div style="margin-bottom: 25px;">
+                    <h2 style="font-size: 1.6rem; font-weight: 700; color: white;">Activity History</h2>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">Track all operations and authentication sessions associated with your account.</p>
+                </div>
+
+                <!-- Activities table -->
+                <div class="table-container">
+                    <div class="table-header-row">
+                        <h3>Chronological Audit Trail</h3>
+                    </div>
+                    <table class="custom-table">
+                        <thead>
+                            <tr>
+                                <th>Activity</th>
+                                <th>Description</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="activities-list-body">
+                            <tr class="skeleton-row">
+                                <td colspan="5" style="text-align: center; color: var(--text-muted); padding: 30px;">
+                                    <i class="fa-solid fa-circle-notch fa-spin"></i> Loading activity logs...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination footer -->
+                <div class="pagination" id="activities-pagination" style="display: none;">
+                    <button class="btn btn-secondary btn-sm" id="btn-prev-page" disabled><i class="fa-solid fa-chevron-left"></i> Previous</button>
+                    <span class="page-info" id="page-info-text">Page 1 of 1</span>
+                    <button class="btn btn-secondary btn-sm" id="btn-next-page" disabled>Next <i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/activity.js"></script>
+</body>
+</html>

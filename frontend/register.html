@@ -1,0 +1,174 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://www.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/page-guard.js"></script>
+    <!-- Firebase App & Auth SDKs -->
+    <script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script defer src="js/firebase-config.js"></script>
+    <script defer src="js/api.js"></script>
+    <script defer src="js/auth.js"></script>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <a href="index.html" class="auth-logo">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <span>Secure Vault</span>
+                </a>
+                <p>Create your encrypted cloud document space with Firebase.</p>
+            </div>
+            
+            <div id="form-error" style="display: none; background-color: rgba(231, 76, 60, 0.15); color: var(--danger); border: 1px solid var(--danger); padding: 12px; border-radius: 6px; font-size: 0.88rem; margin-bottom: 20px; text-align: center;"></div>
+            <div id="form-success" style="display: none; background-color: rgba(46, 204, 113, 0.15); color: var(--success); border: 1px solid var(--success); padding: 12px; border-radius: 6px; font-size: 0.88rem; margin-bottom: 20px; text-align: center;"></div>
+
+            <!-- Google One-Click Register -->
+            <button type="button" id="btn-google" class="btn btn-secondary" style="width: 100%; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 10px; border-color: rgba(255,255,255,0.15);">
+                <i class="fa-brands fa-google" style="color: #4285F4; font-size: 1.1rem;"></i>
+                <span>Sign Up with Google</span>
+            </button>
+
+            <div style="display: flex; align-items: center; text-align: center; margin-bottom: 20px; color: var(--text-muted); font-size: 0.8rem;">
+                <div style="flex: 1; border-bottom: 1px solid var(--border-color);"></div>
+                <span style="padding: 0 10px;">or with email</span>
+                <div style="flex: 1; border-bottom: 1px solid var(--border-color);"></div>
+            </div>
+
+            <form id="register-form">
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" class="form-control" placeholder="John Doe" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" class="form-control" placeholder="john@company.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-group">
+                        <input type="password" id="password" class="form-control" placeholder="••••••••" required>
+                        <i class="fa-solid fa-eye-slash input-icon-right" id="toggle-password"></i>
+                    </div>
+                    <div class="password-strength">
+                        <div class="password-strength-bar" id="strength-bar"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <div class="input-group">
+                        <input type="password" id="confirmPassword" class="form-control" placeholder="••••••••" required>
+                        <i class="fa-solid fa-eye-slash input-icon-right" id="toggle-confirm-password"></i>
+                    </div>
+                </div>
+                
+                <button type="submit" id="btn-submit" class="btn btn-primary" style="width: 100%; margin-top: 10px;">
+                    <i class="fa-solid fa-user-plus"></i> <span id="btn-text">Create Vault Account</span>
+                </button>
+            </form>
+            
+            <div class="form-footer">
+                Already have an account? <a href="login.html">Sign in</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const togglePassword = document.getElementById('toggle-password');
+        const passwordInput = document.getElementById('password');
+        togglePassword.addEventListener('click', () => {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            togglePassword.classList.toggle('fa-eye');
+            togglePassword.classList.toggle('fa-eye-slash');
+        });
+
+        const toggleConfirmPassword = document.getElementById('toggle-confirm-password');
+        const confirmPasswordInput = document.getElementById('confirmPassword');
+        toggleConfirmPassword.addEventListener('click', () => {
+            const type = confirmPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            confirmPasswordInput.setAttribute('type', type);
+            toggleConfirmPassword.classList.toggle('fa-eye');
+            toggleConfirmPassword.classList.toggle('fa-eye-slash');
+        });
+
+        passwordInput.addEventListener('input', () => {
+            const val = passwordInput.value;
+            const bar = document.getElementById('strength-bar');
+            let rulesMet = 0;
+            if (val.length >= 8) rulesMet++;
+            if (/[A-Z]/.test(val)) rulesMet++;
+            if (/[a-z]/.test(val)) rulesMet++;
+            if (/\d/.test(val)) rulesMet++;
+            if (/[@$!%*?&#]/.test(val)) rulesMet++;
+
+            bar.className = 'password-strength-bar';
+            if (val.length === 0) {}
+            else if (rulesMet <= 2) bar.classList.add('strength-weak');
+            else if (rulesMet <= 4) bar.classList.add('strength-medium');
+            else bar.classList.add('strength-strong');
+        });
+
+        const registerForm = document.getElementById('register-form');
+        const errorDiv = document.getElementById('form-error');
+        const successDiv = document.getElementById('form-success');
+        const btnSubmit = document.getElementById('btn-submit');
+        const btnText = document.getElementById('btn-text');
+        const btnGoogle = document.getElementById('btn-google');
+
+        registerForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            errorDiv.style.display = 'none';
+            successDiv.style.display = 'none';
+
+            const fullName = document.getElementById('fullName').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const password = passwordInput.value;
+            const confirmPassword = confirmPasswordInput.value;
+
+            if (password !== confirmPassword) {
+                errorDiv.textContent = 'Passwords do not match.';
+                errorDiv.style.display = 'block';
+                return;
+            }
+
+            btnSubmit.disabled = true;
+            btnText.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Creating account...';
+
+            try {
+                await sv_register(fullName, email, password, confirmPassword);
+                successDiv.textContent = 'Account created! Taking you to your vault...';
+                successDiv.style.display = 'block';
+                btnText.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Opening vault...';
+
+                // Session is already set up by sv_register — redirect immediately
+                sv_redirectBasedOnRole();
+            } catch (err) {
+                errorDiv.textContent = err.message || 'Unable to register account.';
+                errorDiv.style.display = 'block';
+                btnSubmit.disabled = false;
+                btnText.innerHTML = '<i class="fa-solid fa-user-plus"></i> Create Vault Account';
+            }
+        });
+
+        btnGoogle.addEventListener('click', async () => {
+            errorDiv.style.display = 'none';
+            try {
+                await sv_googleLogin();
+            } catch (err) {
+                errorDiv.textContent = err.message || 'Google sign up failed.';
+                errorDiv.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>

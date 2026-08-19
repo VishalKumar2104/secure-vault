@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://www.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/page-guard.js"></script>
+    <!-- Firebase App & Auth SDKs -->
+    <script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script defer src="js/firebase-config.js"></script>
+    <script defer src="js/api.js"></script>
+    <script defer src="js/auth.js"></script>
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar Placeholder -->
+        <div id="sidebar-container"></div>
+
+        <div class="main-wrapper">
+            <!-- Topbar Placeholder -->
+            <div id="topbar-container"></div>
+
+            <!-- Content Body -->
+            <div class="content-body">
+                <div style="margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+                    <div>
+                        <h2 style="font-size: 1.6rem; font-weight: 700; color: white;">My Documents</h2>
+                        <p style="color: var(--text-muted); font-size: 0.95rem;">Manage, search, and download your stored documents.</p>
+                    </div>
+                    <a href="upload.html" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Upload New Document</a>
+                </div>
+
+                <!-- Table & Controls container -->
+                <div class="table-container">
+                    <div class="table-header-row">
+                        <!-- Search and Filters -->
+                        <div class="table-controls" style="width: 100%; justify-content: space-between;">
+                            <div style="display: flex; gap: 12px; flex: 1; max-width: 500px;">
+                                <input type="text" id="search-input" class="form-control search-input" placeholder="Search files...">
+                                <select id="filter-type" class="select-control">
+                                    <option value="all">All File Types</option>
+                                    <option value="pdf">PDF Documents</option>
+                                    <option value="images">Images (PNG, JPG)</option>
+                                    <option value="documents">Word Docs & Texts</option>
+                                    <option value="spreadsheets">Spreadsheets (XLS)</option>
+                                    <option value="other">ZIPs & Others</option>
+                                </select>
+                            </div>
+                            <div>
+                                <select id="sort-by" class="select-control">
+                                    <option value="newest">Newest First</option>
+                                    <option value="oldest">Oldest First</option>
+                                    <option value="name_asc">Name A-Z</option>
+                                    <option value="name_desc">Name Z-A</option>
+                                    <option value="size_desc">Size (Large to Small)</option>
+                                    <option value="size_asc">Size (Small to Large)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <table class="custom-table">
+                        <thead>
+                            <tr>
+                                <th>File Name</th>
+                                <th>File Type</th>
+                                <th>File Size</th>
+                                <th>Uploaded Date</th>
+                                <th>Last Modified</th>
+                                <th>Security Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="files-list-body">
+                            <tr class="skeleton-row">
+                                <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 30px;">
+                                    <i class="fa-solid fa-circle-notch fa-spin"></i> Loading documents...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination footer -->
+                <div class="pagination" id="files-pagination" style="display: none;">
+                    <button class="btn btn-secondary btn-sm" id="btn-prev-page" disabled><i class="fa-solid fa-chevron-left"></i> Previous</button>
+                    <span class="page-info" id="page-info-text">Page 1 of 1</span>
+                    <button class="btn btn-secondary btn-sm" id="btn-next-page" disabled>Next <i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- File Details Modal -->
+    <div class="modal-overlay" id="details-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>File Details</h3>
+                <button class="btn-icon" onclick="closeDetailsModal()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <ul class="details-list">
+                    <li class="details-item"><span>File Name</span><span id="detail-name">-</span></li>
+                    <li class="details-item"><span>File Type</span><span id="detail-type">-</span></li>
+                    <li class="details-item"><span>MIME Type</span><span id="detail-mime">-</span></li>
+                    <li class="details-item"><span>File Size</span><span id="detail-size">-</span></li>
+                    <li class="details-item"><span>Upload Date</span><span id="detail-date">-</span></li>
+                    <li class="details-item"><span>Encryption Status</span><span id="detail-encryption" style="color: var(--success);">-</span></li>
+                    <li class="details-item"><span>Security Status</span><span id="detail-security" style="color: var(--success);">-</span></li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeDetailsModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/files.js"></script>
+</body>
+</html>
